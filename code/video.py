@@ -56,7 +56,7 @@ while cap.isOpened():
     # Draw detections
     for (box, score) in dets:
         bx, by, bw, bh = box
-        cv2.rectangle(frame, (bx, by), (bx + bw, by + bh), (0, 255, 0), 2)
+        cv2.rectangle(frame, (bx, by), (bx + bw, by + bh), (0, 255, 0), 3)
         cv2.putText(frame, f"P {score:.2f}", (bx, by-5), 0, 0.4, (0, 255, 0), 1)
 
     out.write(frame)

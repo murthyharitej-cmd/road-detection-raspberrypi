@@ -9,8 +9,8 @@ MODEL_PATH = "../models/expert_fast.onnx"
 INPUT_SIZE = 320 
 CONF_THRESHOLD = 0.35
 NMS_THRESHOLD = 0.45
-FRAME_SKIP = 3  # Run AI every 3rd frame to boost speed
-ALPHA = 0.1     # FPS smoothing factor (lower = more stable)
+FRAME_SKIP = 5  # Run AI every 3rd frame to boost speed
+ALPHA = 0.01     # FPS smoothing factor (lower = more stable)
 
 # --- INITIALIZE AI ---
 # Using 4 threads to maximize the Raspberry Pi's Quad-core CPU
