@@ -4,7 +4,6 @@ import onnxruntime as ort
 import time
 import os
 
-# --- SETUP ---
 MODEL = "/home/haritej/road_proj/models/model_a.onnx" 
 SIZE = 480  
 vid_name = input("Video name: ")
@@ -22,8 +21,6 @@ cap = cv2.VideoCapture(path)
 w, h = int(cap.get(3)), int(cap.get(4))
 out = cv2.VideoWriter(f"../output/out_{vid_name}", cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (w, h))
 
-# Define Hazard Mapping
-# 6: Pothole, 16: Pothole1, 2: Obstacle, 0: Animal
 HAZARD_MAP = {
     6: "POTHOLE",
     16: "POTHOLE",
@@ -50,7 +47,6 @@ while cap.isOpened():
         boxes, confs, labels = [], [], []
         for p in preds:
             class_probs = p[4:]
-            # Find the best class among our hazards
             best_class_idx = np.argmax(class_probs)
             score = class_probs[best_class_idx]
             
@@ -59,7 +55,7 @@ while cap.isOpened():
                 x = int((cx - bw/2) * (w / SIZE))
                 y = int((cy - bh/2) * (h / SIZE))
                 
-                if y > (h * 0.40): # Focus on the road surface
+                if y > (h * 0.40): 
                     boxes.append([x, y, int(bw * (w / SIZE)), int(bh * (h / SIZE))])
                     confs.append(float(score))
                     labels.append(HAZARD_MAP[best_class_idx])
@@ -67,10 +63,8 @@ while cap.isOpened():
         idx = cv2.dnn.NMSBoxes(boxes, confs, 0.40, 0.45)
         dets = [(boxes[i], confs[i], labels[i]) for i in (idx.flatten() if len(idx) > 0 else [])]
 
-    # Draw Hazard detections
     for (box, score, label) in dets:
         bx, by, bw, bh = box
-        # Red color for all anomalies to grab attention
         cv2.rectangle(frame, (bx, by), (bx + bw, by + bh), (0, 0, 255), 3)
         cv2.putText(frame, f"{label} {score:.2f}", (bx, by-10), 0, 0.6, (0, 0, 255), 2)
 
