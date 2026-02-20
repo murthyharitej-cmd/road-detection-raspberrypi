@@ -4,7 +4,7 @@ import onnxruntime as ort
 import time
 import os
 
-MODEL = "/home/haritej/road_proj/models/model_a.onnx" 
+MODEL = "../models/model_a.onnx" 
 SIZE = 480  
 vid_name = input("Video name: ")
 path = f"../videos/{vid_name}"
